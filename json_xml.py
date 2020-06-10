@@ -1,47 +1,51 @@
+# подключаем библиотеки Python
 import json
-import xmltojson
 import xml.etree.ElementTree as etree
-from pprint import pprint
 
-def xml_topstring(name_of_file):
-    list = []
-    sort_list = []
+# функция определения длины слова
+def len_word(e):
+  return len(e)
+
+# функция сортировки и вывод ТОП слов по длине
+def show_top(list):
     top = []
-    file = name_of_file
-    #читаем файл
+    data = list
+    data_list=[]
+    str1 = ""
+    k = 1
+    for item in data:
+        str1+=item
+    sort_list = str1.split(' ')
+    sort_list = set(sort_list)
+    sort_list = sorted(sort_list,key=len_word,reverse=True)
+
+    six_word = sort_list[0:10]
+    for count in six_word:
+        if len(count)>6:
+            print(f'{k}:', count)
+            k+=1
+
+# функция парсинга XML файла
+def xml_parse(file):
+    list = []
+    file = file
     tree = etree.parse(file)
     root = tree.getroot()
-
     for channel in root:
         for data in channel:
             for include in data:
-                # print(include.tag)
                 if include.tag == 'description':
-                    # print(include.text)
                     list.append(include.text)
-    # print(list)
-    for item in list:
-        sort_list = item.split()
-    sort_list2 = set(sort_list)
-    sort = sorted(sort_list2, key=len, reverse = True)
-    # больше 6ти символов
-    for key in sort:
-        if len(key)>6:
-            top.append(key)
-    print('XML:')
-    print(top[0:6])
+    print('')
+    print(f'ТОП 10 длинных слов в XML файле:')
+    show_top(list)
 
-
-
-def json_topstring(name_of_file):
+# функция парсинга JSON файла
+def json_parse(file):
     list = []
-    sort_list = []
-    top = []
-    file = name_of_file
-    #читаем файл
+    file = file
     with open(file, 'r', encoding='utf-8') as myfile:
         data=json.load(myfile)
-
     for news in data:
        for new in data[news]:
            if new=='channel':
@@ -49,24 +53,12 @@ def json_topstring(name_of_file):
                    if description == 'items':
                        for descriptions in data[news][new]['items']:
                            list.append(descriptions)
+    data = []
     for item in list:
-        all = item['description']
-    sort_list = all.split(' ')
-    #функция сортировки
-    def myFunc(e):
-      return len(e)
-    sort_list.sort(key=myFunc,reverse=True)
+        data.append(item['description'])
+    print('')
+    print(f'ТОП 10 длинных слов в JSON файле:')
+    show_top(data)
 
-    # больше 6ти символов
-    print('JSON:')
-    for key in sort_list:
-        if len(key)>6:
-            top.append(key)
-    print(top[0:6])
-
-
-
-json_topstring('file.json')
-json_topstring('file2.json')
-xml_topstring('xml_file.xml')
-xml_topstring('xml_file2.xml')
+json_parse('file.json')
+xml_parse('xml_file.xml')
