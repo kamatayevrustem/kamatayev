@@ -8,12 +8,10 @@ def len_word(e):
 
 # функция сортировки и вывод ТОП слов по длине
 def show_top(list):
-    top = []
-    data = list
-    data_list=[]
+    data_word = list
     str1 = ""
     k = 1
-    for item in data:
+    for item in data_word:
         str1+=item
     sort_list = str1.split(' ')
     sort_list = set(sort_list)
