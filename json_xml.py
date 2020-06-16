@@ -1,27 +1,25 @@
-# подключаем библиотеки Python
 import json
 import xml.etree.ElementTree as etree
+from collections import Counter
+import re
 
-# функция определения длины слова
-def len_word(e):
-  return len(e)
-
-# функция сортировки и вывод ТОП слов по длине
+#фукнция поиска топ 10 самых часто встречающихся в новостях слов длиннее 6 символов
 def show_top(list):
     data_word = list
-    str1 = ""
-    k = 1
-    for item in data_word:
-        str1+=item
-    sort_list = str1.split(' ')
-    sort_list = set(sort_list)
-    sort_list = sorted(sort_list,key=len_word,reverse=True)
+    str = ''
+    k = 0
 
-    six_word = sort_list[0:10]
-    for count in six_word:
-        if len(count)>6:
-            print(f'{k}:', count)
+    for i in data_word:
+        str = ''.join((str, i))
+
+    cnt = Counter(x for x in re.findall(r'[A-z\']{6,}', str))
+    all_data = cnt.most_common()
+
+    for item in all_data:
+        if k<10:
             k+=1
+            print(f'№{k}: {item[0]} повторяется {item[1]} раза')
+
 
 # функция парсинга XML файла
 def xml_parse(file):
@@ -35,7 +33,7 @@ def xml_parse(file):
                 if include.tag == 'description':
                     list.append(include.text)
     print('')
-    print(f'ТОП 10 длинных слов в XML файле:')
+    print(f'Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в XML:')
     show_top(list)
 
 # функция парсинга JSON файла
@@ -55,7 +53,7 @@ def json_parse(file):
     for item in list:
         data.append(item['description'])
     print('')
-    print(f'ТОП 10 длинных слов в JSON файле:')
+    print(f'Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в JSON:')
     show_top(data)
 
 json_parse('file.json')
