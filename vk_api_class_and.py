@@ -3,7 +3,7 @@ import time
 
 class VK:
     global TOKEN,URL_users_get,URL_friends_get,URL_groups_get,URL_groups_getById,URL_friends_getMutual
-    TOKEN = 'b5819b2be284070b95a1abd910f8663edeeaa983decb21e0e646d2f88e6a7307cd67150edd80d655d6d70'
+    TOKEN = ''
     URL_users_get = 'https://api.vk.com/method/users.get'
     URL_friends_get = 'https://api.vk.com/method/friends.get'
     URL_groups_get = 'https://api.vk.com/method/groups.get'
