@@ -6,11 +6,11 @@ import time
 
 
 def translate_it(language_first, language_second, dir_file, dir_result):
-    API_KEY = 'trnsl.1.1.20190712T081241Z.0309348472c8719d.0efdbc7ba1c507292080e3fbffe4427f7ce9a9f0'
+    API_KEY = ''
     URL = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
     URL_lang_detect = 'https://translate.yandex.net/api/v1.5/tr.json/detect'
     from_lang = language_first
-    y = yadisk.YaDisk(token='AgAAAAANkH7YAAZW0kz95Ip-SktyuoPYa_LsIl8')
+    y = yadisk.YaDisk(token='')
     to_lang = language_second
     path_file = dir_file
     result_file = dir_result
