@@ -3,7 +3,7 @@ import requests
 class VK:
     name = "Tom"
     global TOKEN
-    TOKEN = 'b5819b2be284070b95a1abd910f8663edeeaa983decb21e0e646d2f88e6a7307cd67150edd80d655d6d70'
+    TOKEN = ''
 
     def get_user_list_mutual(self):
         URL_users_get = 'https://api.vk.com/method/users.get'
