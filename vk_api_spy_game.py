@@ -6,8 +6,8 @@ import json
 class VK:
     name = "Tom"
     global TOKEN,URL_users_get,URL_friends_get,URL_groups_get,URL_groups_getById,URL_users_get,array_group, json
-    # TOKEN = 'b5819b2be284070b95a1abd910f8663edeeaa983decb21e0e646d2f88e6a7307cd67150edd80d655d6d70'
-    TOKEN = '958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008'
+
+    TOKEN = ''
     URL_users_get = 'https://api.vk.com/method/users.get'
     URL_friends_get = 'https://api.vk.com/method/friends.get'
     URL_groups_get = 'https://api.vk.com/method/groups.get'
