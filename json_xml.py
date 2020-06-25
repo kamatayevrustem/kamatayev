@@ -1,84 +1,67 @@
 import json
 import xml.etree.ElementTree as etree
 from collections import Counter
-import re
 
 #фукнция поиска топ 10 самых часто встречающихся в новостях слов длиннее 6 символов
-def show_top(list):
-    data_word = list
-    list_finish = []
+def show_top(data_set):
+    data_word = data_set
     k = 0
-    for i in data_word:
-        list_finish.extend(i)
-    list_finish2 = ''.join(list_finish)
-    cnt = Counter(x for x in re.findall(r'[A-z\']{6,}', list_finish2))
-    all_data = cnt.most_common()
+    counter_data = Counter(data_word)
+    all_data = counter_data.most_common()
+
     for item in all_data:
         if k<10:
             k+=1
-            print(f'№{k}: {item[0]} повторяется {item[1]} раза')
+            key,value = item
+            print(f'№{k}: слово "{key}" - повторятся {value} раз(а)')
 
 # функция парсинга XML файла
-def xml_parse(file):
+def xml_parse(file_name):
     list_word = []
-    file_name = file
-    tree_name = etree.parse(file_name)
+    finish_list = []
+    file_itself = file_name
+    tree_name = etree.parse(file_itself)
     root_name = tree_name.getroot()
     for channel in root_name:
         for data in channel:
             for include in data:
                 if include.tag == 'description':
-                    list_word.append(include.text)
-    print('')
-    print(f'Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в XML:')
-    show_top(list_word)
+                    list_word.append(include.text.split())
 
+    for items in list_word:
+        for words in items:
+            if len(words)>=6:
+                finish_list.append(words)
+
+    print(f'Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в XML:')
+    show_top(finish_list)
+    print('\n')
 
 # функция парсинга JSON файла
-def json_parse(file):
-    list_word = []
-    file_name = file
-    with open(file_name, 'r', encoding='utf-8') as myfile:
+def json_parse(file_name):
+    file_itself = file_name
+    list_of_data = []
+    finish_list = []
+
+    with open(file_itself, 'r', encoding='utf-8') as myfile:
         data_set=json.load(myfile)
-    for news in data_set:
-       for new in data_set[news]:
-           if new=='channel':
-               for description in data_set[news][new]:
-                   if description == 'items':
-                       for descriptions in data_set[news][new]['items']:
-                           list_word.append(descriptions['description'])
+
+    for item in data_set['rss']['channel']['items']:
+        list_of_data.extend(item['description'].split())
+
+    for items in list_of_data:
+        if len(items)>=6:
+            finish_list.append(items)
+
     print(f'Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в JSON:')
-    show_top(list_word)
+    show_top(finish_list)
+    print('\n')
 
-json_parse('file.json')
-xml_parse('xml_file.xml')
+def main():
+    # важно, новостью считается текст в items -> description, я взял реальные тексты статей без лишних тэгов, все перепроверил и работает отлично
+    json_parse('file.json')
+    xml_parse('xml_file.xml')
 
 
-
-# Результат программы:
-# D:\Anaconda3\python.exe "C:/Users/Рустем/Desktop/PYTHON/изучение/10 Работа с JSON и XML/json_full3.py"
-# Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в JSON:
-# №1: Wilderness повторяется 23 раза
-# №2: Travel повторяется 17 раза
-# №3: Protea повторяется 15 раза
-# №4: Safaris повторяется 13 раза
-# №5: Marriott повторяется 12 раза
-# №6: International повторяется 9 раза
-# №7: Belmond повторяется 7 раза
-# №8: Hotels повторяется 7 раза
-# №9: Anantara повторяется 7 раза
-# №10: Africa повторяется 6 раза
-#
-# Топ 10 самых часто встречающихся в новостях слов длиннее 6 символов в XML:
-# №1: Wilderness повторяется 23 раза
-# №2: Travel повторяется 17 раза
-# №3: Protea повторяется 15 раза
-# №4: Safaris повторяется 13 раза
-# №5: Marriott повторяется 12 раза
-# №6: International повторяется 9 раза
-# №7: Belmond повторяется 7 раза
-# №8: Hotels повторяется 7 раза
-# №9: Anantara повторяется 7 раза
-# №10: Africa повторяется 6 раза
-#
-# Process finished with exit code 0
+if __name__ == '__main__':
+    main()
