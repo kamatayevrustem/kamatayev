@@ -1,7 +1,7 @@
 import json
 import wikipediaapi
 
-class ArticleWiki:
+class Wiki_link:
 
     def __init__(self, path, start):
         with open(path, 'r', encoding='utf-8') as myfile:
@@ -25,7 +25,7 @@ class ArticleWiki:
 if __name__ == '__main__':
     output_file = open('countries_with_links.txt', 'w', encoding="utf-8")
 
-    for country, item in ArticleWiki('countries.json', 0):
+    for country, item in Wiki_link('countries.json', 0):
         output_file.write(str(country) + '\t —> \t' + str(item) + '\n')
         print('.', end='', flush=True)
 
