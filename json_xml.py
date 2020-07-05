@@ -27,7 +27,6 @@ def show_top(work_text, type_file):
 
 def xml_unification(xml_list):
     unification_words = []
-    print(f'XML: {xml_list}')
     for item in xml_list:
         for words in item:
             unification_words.append(words)
@@ -55,7 +54,6 @@ def json_parse(json_name):
         data_set = json.load(myfile)
     for item in data_set['rss']['channel']['items']:
         list_of_data.extend(item['description'].split())
-    print(f'JSON: {list_of_data}')
     return list_of_data
 
 
