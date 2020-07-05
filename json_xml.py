@@ -25,6 +25,15 @@ def show_top(work_text, type_file):
     count_words(finish_list)
 
 
+def xml_unification(xml_list):
+    unification_words = []
+    print(f'XML: {xml_list}')
+    for item in xml_list:
+        for words in item:
+            unification_words.append(words)
+    return unification_words
+
+
 # функция парсинга XML файла
 def xml_parse(xml_name):
     list_word = []
@@ -35,7 +44,8 @@ def xml_parse(xml_name):
             for include in data:
                 if include.tag == 'description':
                     list_word.append(include.text.split())
-    return list_word[0]
+    list_words = xml_unification(list_word)
+    return list_words
 
 
 # функция парсинга JSON файла
@@ -45,6 +55,7 @@ def json_parse(json_name):
         data_set = json.load(myfile)
     for item in data_set['rss']['channel']['items']:
         list_of_data.extend(item['description'].split())
+    print(f'JSON: {list_of_data}')
     return list_of_data
 
 
