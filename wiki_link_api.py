@@ -1,5 +1,6 @@
 import json
 import wikipediaapi
+import hashlib
 
 class Wiki_link:
 
@@ -21,12 +22,19 @@ class Wiki_link:
         country_link = country_page.fullurl
         return country, country_link
 
+    def gen(self, path):
+        with open(path) as file:
+            for line in file:
+                line = hashlib.md5(line.encode("utf-8")).hexdigest()
+                yield line.upper()
+
 
 if __name__ == '__main__':
-    output_file = open('countries_with_links.txt', 'w', encoding="utf-8")
-
+    output_file = open('countries_with_links777.txt', 'w', encoding="utf-8")
     for country, item in Wiki_link('countries.json', 0):
         output_file.write(str(country) + '\t —> \t' + str(item) + '\n')
         print('.', end='', flush=True)
-
     output_file.close()
+
+    for items in Wiki_link.gen(0,'countries_with_links777.txt'):
+        print(items)
